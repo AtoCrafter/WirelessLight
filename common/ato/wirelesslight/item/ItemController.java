@@ -24,7 +24,7 @@ public class ItemController extends Item {
             "wirelesslight.controller.mode.install",
     };
     private ArrayList<Pos> list;
-    //    private boolean switchOn;
+    private boolean switchOn;
     private Pos startPoint;
 
     public ItemController(int id) {
@@ -157,13 +157,15 @@ public class ItemController extends Item {
     private void save(ItemStack is) {
         NBTTagCompound nbttc = new NBTTagCompound();
 
-//        NBTTagList listOfBlocks = new NBTTagList("ListOfBlocks");
-//        for (Pos p : list) {
-//            listOfBlocks.appendTag(p.writeToNBT());
-//        }
-//        nbttc.setTag("ListOfBlocks", listOfBlocks);
-//
-//        nbttc.setBoolean("switch", switchOn);
+        NBTTagList listOfBlocks = new NBTTagList("ListOfBlocks");
+        for (Pos p : list) {
+            NBTTagCompound postag = new NBTTagCompound("Pos");
+            p.writeToNBT(postag);
+            listOfBlocks.appendTag(postag);
+        }
+        nbttc.setTag("ListOfBlocks", listOfBlocks);
+
+        nbttc.setBoolean("switch", switchOn);
 
         is.setTagCompound(nbttc);
     }
@@ -171,18 +173,18 @@ public class ItemController extends Item {
     private void load(ItemStack is) {
         list.clear();
         NBTTagCompound nbttc = is.getTagCompound();
-//        if (nbttc != null) {
-//
-//            NBTTagList listOfBlocks = nbttc.getTagList("ListOfBlocks");
-//            if (list != null) {
-//                for (int i = 0; i < listOfBlocks.tagCount(); ++i) {
-//                    NBTTagCompound pos = (NBTTagCompound) listOfBlocks.tagAt(i);
-//                    list.add(new Pos(pos));
-//                }
-//            }
-//
-//            switchOn = nbttc.getBoolean("switch");
-//        }
+        if (nbttc != null) {
+
+            NBTTagList listOfBlocks = nbttc.getTagList("ListOfBlocks");
+            if (list != null) {
+                for (int i = 0; i < listOfBlocks.tagCount(); ++i) {
+                    NBTTagCompound postag = (NBTTagCompound) listOfBlocks.tagAt(i);
+                    list.add(new Pos(postag));
+                }
+            }
+
+            switchOn = nbttc.getBoolean("switch");
+        }
     }
 
     private void changeMode(EntityPlayer player, ItemStack is) {
@@ -226,9 +228,36 @@ public class ItemController extends Item {
             this.z = z;
         }
 
+        private Pos(NBTTagCompound nbt) {
+            x = nbt.getInteger("x");
+            y = nbt.getInteger("y");
+            z = nbt.getInteger("z");
+        }
+
         @Override
         public String toString() {
             return "(" + x + "," + y + "," + z + ")";
+        }
+
+        @Override
+        public int hashCode() {
+            return Integer.valueOf(x).hashCode() + Integer.valueOf(y).hashCode() + Integer.valueOf(z).hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Pos) {
+                Pos other = (Pos) obj;
+                return x == other.x && y == other.y && z == other.z;
+            } else {
+                return false;
+            }
+        }
+
+        private void writeToNBT(NBTTagCompound nbt) {
+            nbt.setInteger("x", x);
+            nbt.setInteger("y", y);
+            nbt.setInteger("z", z);
         }
     }
 }
