@@ -1,12 +1,18 @@
 package ato.wirelesslight.item;
 
 import ato.wirelesslight.WirelessLight;
+import ato.wirelesslight.block.BlockLight;
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.StringTranslate;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class ItemController extends Item {
 
@@ -17,9 +23,9 @@ public class ItemController extends Item {
             "wirelesslight.controller.mode.switch",
             "wirelesslight.controller.mode.install",
     };
-//    private ArrayList<Pos> list;
-//    private boolean switchOn;
-//    private Pos startPoint;
+    private ArrayList<Pos> list;
+    //    private boolean switchOn;
+    private Pos startPoint;
 
     public ItemController(int id) {
         super(id);
@@ -27,7 +33,7 @@ public class ItemController extends Item {
         setHasSubtypes(true);
         setCreativeTab(CreativeTabs.tabRedstone);
 
-//        list = new ArrayList<Pos>();
+        list = new ArrayList<Pos>();
     }
 
     @Override
@@ -40,23 +46,21 @@ public class ItemController extends Item {
         return WirelessLight.texturePathBlock;
     }
 
-//    @Override
-//    public boolean tryPlaceIntoWorld(ItemStack stack, EntityPlayer player,
-//                                     World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
-//        if (player.isSneaking()) return false;
-//
-//        switch (stack.getItemDamage()) {
-//            case 0:
-//                int blockID = world.getBlockId(x, y, z);
-//                if (blockID != WirelessLight.blockWirelessLightIdle.blockID &&
-//                        blockID != WirelessLight.blockWirelessLightActive.blockID)
-//                    return false;
-//
-//                if (!world.isRemote) {
-//                    registerBlockInControll(player, stack, x, y, z);
-//                }
-//
-//                return true;
+    @Override
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
+                             int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+        if (player.isSneaking()) return false;
+
+        switch (stack.getItemDamage()) {
+            case 0:
+                int blockID = world.getBlockId(x, y, z);
+                if (!(Block.blocksList[blockID] instanceof BlockLight))
+                    return false;
+
+                if (!world.isRemote)
+                    registerBlockInControll(player, stack, x, y, z);
+
+                return true;
 //            case 1:
 //                if (!world.isRemote) {
 //                    if (startPoint == null) {
@@ -79,15 +83,15 @@ public class ItemController extends Item {
 //                    }
 //                }
 //                break;
-//        }
-//
-//        return false;
-//    }
+        }
+
+        return false;
+    }
 
     @Override
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
         if (world.isRemote) return itemstack;
-//        load(itemstack);
+        load(itemstack);
         if (player.isSneaking()) {
             changeMode(player, itemstack);
 //        } else {
@@ -103,19 +107,19 @@ public class ItemController extends Item {
         return itemstack;
     }
 
-//    public void registerBlockInControll(EntityPlayer player, ItemStack is, int x, int y, int z) {
-//        load(is);
-//        Pos pos = new Pos(x, y, z);
-//        if (list.contains(pos)) {
-//            list.remove(pos);
-//            player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.unregister") + ": " + pos);
-//        } else {
-//            list.add(pos);
-//            player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.register") + ": " + pos);
-//        }
-//        save(is);
-//    }
-//
+    public void registerBlockInControll(EntityPlayer player, ItemStack is, int x, int y, int z) {
+        load(is);
+        Pos pos = new Pos(x, y, z);
+        if (list.contains(pos)) {
+            list.remove(pos);
+            player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.unregister") + ": " + pos);
+        } else {
+            list.add(pos);
+            player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.register") + ": " + pos);
+        }
+        save(is);
+    }
+
 //    public void registerBlocksInControll(World world, EntityPlayer player, ItemStack is, Pos from, Pos to) {
 //        load(is);
 //        int size = 0;
@@ -149,10 +153,10 @@ public class ItemController extends Item {
 //        infoList.add(StringTranslate.getInstance().translateKey("wirelesslight.controller.blocksincontroll")
 //                + ": " + list.size());
 //    }
-//
-//    private void save(ItemStack is) {
-//        NBTTagCompound nbttc = new NBTTagCompound();
-//
+
+    private void save(ItemStack is) {
+        NBTTagCompound nbttc = new NBTTagCompound();
+
 //        NBTTagList listOfBlocks = new NBTTagList("ListOfBlocks");
 //        for (Pos p : list) {
 //            listOfBlocks.appendTag(p.writeToNBT());
@@ -160,13 +164,13 @@ public class ItemController extends Item {
 //        nbttc.setTag("ListOfBlocks", listOfBlocks);
 //
 //        nbttc.setBoolean("switch", switchOn);
-//
-//        is.setTagCompound(nbttc);
-//    }
-//
-//    private void load(ItemStack is) {
-//        list.clear();
-//        NBTTagCompound nbttc = is.getTagCompound();
+
+        is.setTagCompound(nbttc);
+    }
+
+    private void load(ItemStack is) {
+        list.clear();
+        NBTTagCompound nbttc = is.getTagCompound();
 //        if (nbttc != null) {
 //
 //            NBTTagList listOfBlocks = nbttc.getTagList("ListOfBlocks");
@@ -179,13 +183,13 @@ public class ItemController extends Item {
 //
 //            switchOn = nbttc.getBoolean("switch");
 //        }
-//    }
+    }
 
     private void changeMode(EntityPlayer player, ItemStack is) {
         is.setItemDamage((is.getItemDamage() + 1) % modeDescription.length);
         player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.modechange")
                 + ": " + StringTranslate.getInstance().translateKey(modeDescription[is.getItemDamage()]));
-//        startPoint = null;
+        startPoint = null;
     }
 
 //    public void toggleSwitch(ItemStack is, World world) {
@@ -208,4 +212,23 @@ public class ItemController extends Item {
 //            }
 //        }
 //    }
+
+    /**
+     * 座標
+     */
+    private class Pos {
+
+        private final int x, y, z;
+
+        private Pos(int x, int y, int z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        @Override
+        public String toString() {
+            return "(" + x + "," + y + "," + z + ")";
+        }
+    }
 }
