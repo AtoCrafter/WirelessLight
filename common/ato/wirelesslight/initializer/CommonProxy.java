@@ -2,11 +2,13 @@ package ato.wirelesslight.initializer;
 
 import ato.wirelesslight.Config;
 import ato.wirelesslight.WirelessLight;
+import ato.wirelesslight.block.BlockController;
 import ato.wirelesslight.block.BlockLightBox;
 import ato.wirelesslight.block.BlockLightPlate;
 import ato.wirelesslight.item.ItemController;
 import ato.wirelesslight.item.ItemTransparentizer;
 import ato.wirelesslight.renderer.TileEntityForRender;
+import ato.wirelesslight.tileentity.TileEntityController;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy {
@@ -34,6 +36,10 @@ public class CommonProxy {
                 new BlockLightPlate(con.blockIDLightPlateTransparent, true).setBlockName("wirelesslight:lightplate.transparent"),
                 "lightplate.transparent"
         );
+        GameRegistry.registerBlock(
+                new BlockController(con.blockIDControllerBox).setBlockName("wirelesslight.block.controller"),
+                "controllerbox"
+        );
         GameRegistry.registerItem(
                 new ItemController(con.itemIDController).setItemName("wirelesslight:controller"),
                 "controller"
@@ -42,5 +48,6 @@ public class CommonProxy {
                 new ItemTransparentizer(con.itemIDTransparentizer).setItemName("wirelesslight:transparentizer"),
                 "transparentizer"
         );
+        GameRegistry.registerTileEntity(TileEntityController.class, "tileentity.controller");
     }
 }

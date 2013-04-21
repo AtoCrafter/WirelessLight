@@ -1,6 +1,7 @@
 package ato.wirelesslight.item;
 
 import ato.wirelesslight.WirelessLight;
+import ato.wirelesslight.block.BlockController;
 import ato.wirelesslight.block.BlockLight;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -74,16 +75,17 @@ public class ItemController extends Item {
                     }
                 }
                 return true;
-//            case 4:
-//                if (!world.isRemote) {
-//                    if (world.getBlockId(x, y, z) == WirelessLight.blockController.blockID) {
-//                        if (((BlockController) WirelessLight.blockController).installFromItemStack(world, x, y, z, stack.copy())) {
-//                            --stack.stackSize;
-//                            return true;
-//                        }
-//                    }
-//                }
-//                break;
+            case 4:
+                if (!world.isRemote) {
+                    Block block = Block.blocksList[world.getBlockId(x, y, z)];
+                    if (block instanceof BlockController) {
+                        if (((BlockController) block).installFromItemStack(world, x, y, z, stack.copy())) {
+                            --stack.stackSize;
+                            return true;
+                        }
+                    }
+                }
+                break;
         }
 
         return false;
@@ -214,8 +216,9 @@ public class ItemController extends Item {
             }
         }
 
-        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.switch")
-                + (on ? " ON" : " OFF") + " (" + list.size() + ")");
+        if (player != null)
+            player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.switch")
+                    + (on ? " ON" : " OFF") + " (" + list.size() + ")");
     }
 
     /**
