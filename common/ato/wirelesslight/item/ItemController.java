@@ -2,7 +2,11 @@ package ato.wirelesslight.item;
 
 import ato.wirelesslight.WirelessLight;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StringTranslate;
+import net.minecraft.world.World;
 
 public class ItemController extends Item {
 
@@ -79,13 +83,13 @@ public class ItemController extends Item {
 //
 //        return false;
 //    }
-//
-//    @Override
-//    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
-//        if (world.isRemote) return itemstack;
+
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
+        if (world.isRemote) return itemstack;
 //        load(itemstack);
-//        if (player.isSneaking()) {
-//            changeMode(player, itemstack);
+        if (player.isSneaking()) {
+            changeMode(player, itemstack);
 //        } else {
 //            switch (itemstack.getItemDamage()) {
 //                case 2:
@@ -95,10 +99,10 @@ public class ItemController extends Item {
 //                    toggleSwitch(itemstack, world);
 //                    break;
 //            }
-//        }
-//        return itemstack;
-//    }
-//
+        }
+        return itemstack;
+    }
+
 //    public void registerBlockInControll(EntityPlayer player, ItemStack is, int x, int y, int z) {
 //        load(is);
 //        Pos pos = new Pos(x, y, z);
@@ -176,14 +180,14 @@ public class ItemController extends Item {
 //            switchOn = nbttc.getBoolean("switch");
 //        }
 //    }
-//
-//    private void changeMode(EntityPlayer player, ItemStack is) {
-//        is.setItemDamage((is.getItemDamage() + 1) % 5);
-//        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.modechange")
-//                + ": " + StringTranslate.getInstance().translateKey(modeDescription[is.getItemDamage()]));
+
+    private void changeMode(EntityPlayer player, ItemStack is) {
+        is.setItemDamage((is.getItemDamage() + 1) % modeDescription.length);
+        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.modechange")
+                + ": " + StringTranslate.getInstance().translateKey(modeDescription[is.getItemDamage()]));
 //        startPoint = null;
-//    }
-//
+    }
+
 //    public void toggleSwitch(ItemStack is, World world) {
 //        load(is);
 //        switchOn(is, world, !switchOn);
