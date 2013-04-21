@@ -119,7 +119,8 @@ public abstract class BlockLight extends Block {
     public void setLighting(World world, int x, int y, int z, boolean light) {
         int meta = world.getBlockMetadata(x, y, z);
         int direction = getDirection(meta);
-        world.setBlockMetadata(x, y, z, getMeta(direction, light));
+        world.setBlockMetadataWithNotify(x, y, z, getMeta(direction, light));
+        world.markBlockForUpdate(x, y, z);
     }
 
     /**
