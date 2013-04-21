@@ -94,15 +94,15 @@ public class ItemController extends Item {
         load(itemstack);
         if (player.isSneaking()) {
             changeMode(player, itemstack);
-//        } else {
-//            switch (itemstack.getItemDamage()) {
-//                case 2:
-//                    unregisterAllBlocks(player, itemstack);
-//                    break;
+        } else {
+            switch (itemstack.getItemDamage()) {
+                case 2:
+                    unregisterAllBlocks(player, itemstack);
+                    break;
 //                case 3:
 //                    toggleSwitch(itemstack, world);
 //                    break;
-//            }
+            }
         }
         return itemstack;
     }
@@ -139,13 +139,13 @@ public class ItemController extends Item {
                 + ": from " + from + " to " + to + " (" + size + ")");
     }
 
-//    public void unregisterAllBlocks(EntityPlayer player, ItemStack is) {
-//        load(is);
-//        list.clear();
-//        save(is);
-//        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.unregisterblocks"));
-//    }
-//
+    public void unregisterAllBlocks(EntityPlayer player, ItemStack is) {
+        load(is);
+        list.clear();
+        save(is);
+        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.unregisterblocks"));
+    }
+
 //    @Override
 //    public void addInformation(ItemStack is, List infoList) {
 //        load(is);
