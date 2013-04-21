@@ -13,6 +13,7 @@ import net.minecraft.util.StringTranslate;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ItemController extends Item {
 
@@ -99,9 +100,9 @@ public class ItemController extends Item {
                 case 2:
                     unregisterAllBlocks(player, itemstack);
                     break;
-//                case 3:
-//                    toggleSwitch(itemstack, world);
-//                    break;
+                case 3:
+                    toggleSwitch(player, itemstack, world);
+                    break;
             }
         }
         return itemstack;
@@ -193,26 +194,29 @@ public class ItemController extends Item {
         startPoint = null;
     }
 
-//    public void toggleSwitch(ItemStack is, World world) {
-//        load(is);
-//        switchOn(is, world, !switchOn);
-//    }
-//
-//    public void switchOn(ItemStack is, World world, boolean on) {
-//        load(is);
-//        switchOn = on;
-//        save(is);
-//
-//        Iterator<Pos> ite = list.iterator();
-//        while (ite.hasNext()) {
-//            Pos p = ite.next();
-//            Block block = Block.blocksList[world.getBlockId(p.x, p.y, p.z)];
-//            if (block instanceof BlockWirelessLight) {
-//                BlockWirelessLight light = (BlockWirelessLight) block;
-//                light.setActive(world, p.x, p.y, p.z, on);
-//            }
-//        }
-//    }
+    public void toggleSwitch(EntityPlayer player, ItemStack is, World world) {
+        load(is);
+        switchOn(player, is, world, !switchOn);
+    }
+
+    public void switchOn(EntityPlayer player, ItemStack is, World world, boolean on) {
+        load(is);
+        switchOn = on;
+        save(is);
+
+        Iterator<Pos> ite = list.iterator();
+        while (ite.hasNext()) {
+            Pos p = ite.next();
+            Block block = Block.blocksList[world.getBlockId(p.x, p.y, p.z)];
+            if (block instanceof BlockLight) {
+                BlockLight light = (BlockLight) block;
+                light.setLighting(world, p.x, p.y, p.z, on);
+            }
+        }
+
+        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.switch")
+                + (on ? " ON" : " OFF") + " (" + list.size() + ")");
+    }
 
     /**
      * 座標
