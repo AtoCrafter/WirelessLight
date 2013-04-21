@@ -61,18 +61,18 @@ public class ItemController extends Item {
                     registerBlockInControll(player, stack, x, y, z);
 
                 return true;
-//            case 1:
-//                if (!world.isRemote) {
-//                    if (startPoint == null) {
-//                        startPoint = new Pos(x, y, z);
-//                        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.setstartpoint") + ": " + startPoint);
-//                    } else {
-//                        Pos endPoint = new Pos(x, y, z);
-//                        registerBlocksInControll(world, player, stack, startPoint, endPoint);
-//                        startPoint = null;
-//                    }
-//                }
-//                return true;
+            case 1:
+                if (!world.isRemote) {
+                    if (startPoint == null) {
+                        startPoint = new Pos(x, y, z);
+                        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.setstartpoint") + ": " + startPoint);
+                    } else {
+                        Pos endPoint = new Pos(x, y, z);
+                        registerBlocksInControll(world, player, stack, startPoint, endPoint);
+                        startPoint = null;
+                    }
+                }
+                return true;
 //            case 4:
 //                if (!world.isRemote) {
 //                    if (world.getBlockId(x, y, z) == WirelessLight.blockController.blockID) {
@@ -120,26 +120,25 @@ public class ItemController extends Item {
         save(is);
     }
 
-//    public void registerBlocksInControll(World world, EntityPlayer player, ItemStack is, Pos from, Pos to) {
-//        load(is);
-//        int size = 0;
-//        for (int x = Math.min(from.x, to.x); x <= Math.max(from.x, to.x); ++x) {
-//            for (int y = Math.min(from.y, to.y); y <= Math.max(from.y, to.y); ++y) {
-//                for (int z = Math.min(from.z, to.z); z <= Math.max(from.z, to.z); ++z) {
-//                    int blockId = world.getBlockId(x, y, z);
-//                    if (blockId == WirelessLight.blockWirelessLightActive.blockID ||
-//                            blockId == WirelessLight.blockWirelessLightIdle.blockID) {
-//                        list.add(new Pos(x, y, z));
-//                        ++size;
-//                    }
-//                }
-//            }
-//        }
-//        save(is);
-//        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.registerblocks")
-//                + ": from " + from + " to " + to + " (" + size + ")");
-//    }
-//
+    public void registerBlocksInControll(World world, EntityPlayer player, ItemStack is, Pos from, Pos to) {
+        load(is);
+        int size = 0;
+        for (int x = Math.min(from.x, to.x); x <= Math.max(from.x, to.x); ++x) {
+            for (int y = Math.min(from.y, to.y); y <= Math.max(from.y, to.y); ++y) {
+                for (int z = Math.min(from.z, to.z); z <= Math.max(from.z, to.z); ++z) {
+                    int blockId = world.getBlockId(x, y, z);
+                    if (Block.blocksList[blockId] instanceof BlockLight) {
+                        list.add(new Pos(x, y, z));
+                        ++size;
+                    }
+                }
+            }
+        }
+        save(is);
+        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.registerblocks")
+                + ": from " + from + " to " + to + " (" + size + ")");
+    }
+
 //    public void unregisterAllBlocks(EntityPlayer player, ItemStack is) {
 //        load(is);
 //        list.clear();
