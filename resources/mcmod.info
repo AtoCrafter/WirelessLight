@@ -1,0 +1,16 @@
+[
+{
+  "modid": "WirelessLight",
+  "name": "Wireless Light",
+  "description": "",
+  "version": "@VERSION@",
+  "mcversion": "@MCVERSION@",
+  "url": "http://atocrafter.github.com//",
+  "authors": [
+    "Ato"
+  ],
+  "dependencies": [
+    "mod_MinecraftForge"
+  ]
+}
+]

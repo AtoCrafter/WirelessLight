@@ -13,7 +13,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 @Mod(
         modid = "WirelessLight",
         name = "Wireless Light",
-        version = "1.1.0"
+        version = "@VERSION@"
 )
 @NetworkMod(
         clientSideRequired = true,
