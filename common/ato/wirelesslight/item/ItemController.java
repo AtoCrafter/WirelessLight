@@ -132,8 +132,11 @@ public class ItemController extends Item {
                 for (int z = Math.min(from.z, to.z); z <= Math.max(from.z, to.z); ++z) {
                     int blockId = world.getBlockId(x, y, z);
                     if (Block.blocksList[blockId] instanceof BlockLight) {
-                        list.add(new Pos(x, y, z));
-                        ++size;
+                        Pos p = new Pos(x, y, z);
+                        if (!list.contains(p)) {
+                            list.add(p);
+                            ++size;
+                        }
                     }
                 }
             }
