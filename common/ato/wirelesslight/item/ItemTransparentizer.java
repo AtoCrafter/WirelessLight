@@ -42,6 +42,7 @@ public class ItemTransparentizer extends Item {
         } else {
             return false;
         }
+        stack.damageItem(1, player);
         return true;
     }
 }
