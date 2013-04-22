@@ -34,7 +34,9 @@ public abstract class BlockLight extends Block {
     public BlockLight(int id, boolean transparent) {
         super(id, 0, Material.redstoneLight);
         setHardness(0);
-        setCreativeTab(CreativeTabs.tabRedstone);
+        if (!transparent) {
+            setCreativeTab(CreativeTabs.tabRedstone);
+        }
         this.transparent = transparent;
     }
 
