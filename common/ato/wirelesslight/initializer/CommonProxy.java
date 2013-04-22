@@ -41,7 +41,7 @@ public class CommonProxy {
                 "lightplate.transparent"
         );
         GameRegistry.registerBlock(
-                new BlockController(con.blockIDControllerBox).setBlockName("wirelesslight.block.controller"),
+                new BlockController(con.blockIDControllerBox).setBlockName("wirelesslight:controllerbox"),
                 "controllerbox"
         );
         GameRegistry.registerItem(
