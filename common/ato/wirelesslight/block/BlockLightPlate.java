@@ -1,9 +1,12 @@
 package ato.wirelesslight.block;
 
+import ato.wirelesslight.WirelessLight;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+
+import java.util.Random;
 
 import static net.minecraftforge.common.ForgeDirection.*;
 
@@ -103,5 +106,15 @@ public class BlockLightPlate extends BlockLight {
                 world.isBlockSolidOnSide(x, y, z + 1, NORTH) ||
                 world.isBlockSolidOnSide(x, y - 1, z, UP) ||
                 world.isBlockSolidOnSide(x, y + 1, z, DOWN);
+    }
+
+    @Override
+    public int idPicked(World par1World, int par2, int par3, int par4) {
+        return WirelessLight.config.blockIDLightPlate;
+    }
+
+    @Override
+    public int idDropped(int par1, Random par2Random, int par3) {
+        return WirelessLight.config.blockIDLightPlate;
     }
 }
