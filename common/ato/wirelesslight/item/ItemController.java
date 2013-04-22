@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class ItemController extends Item {
 
@@ -149,12 +150,13 @@ public class ItemController extends Item {
         player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.unregisterblocks"));
     }
 
-//    @Override
-//    public void addInformation(ItemStack is, List infoList) {
-//        load(is);
-//        infoList.add(StringTranslate.getInstance().translateKey("wirelesslight.controller.blocksincontroll")
-//                + ": " + list.size());
-//    }
+    @Override
+    public void addInformation(ItemStack is, EntityPlayer entityPlayer, List infoList, boolean par4) {
+        load(is);
+        infoList.add(StringTranslate.getInstance().translateKey(modeDescription[is.getItemDamage()]));
+        infoList.add(StringTranslate.getInstance().translateKey("wirelesslight.controller.blocksincontroll")
+                + ": " + list.size());
+    }
 
     private void save(ItemStack is) {
         NBTTagCompound nbttc = new NBTTagCompound();
