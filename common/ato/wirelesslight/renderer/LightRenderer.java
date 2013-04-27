@@ -28,6 +28,9 @@ public class LightRenderer extends TileEntitySpecialRenderer {
 
                 GL11.glPushMatrix();
                 ForgeHooksClient.bindTexture(WirelessLight.texturePathBright, 1);
+                GL11.glDepthMask(false);
+                GL11.glEnable(GL11.GL_BLEND);
+                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, alpha);
 
                 int meta = block.getDirection(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord);
@@ -94,6 +97,9 @@ public class LightRenderer extends TileEntitySpecialRenderer {
                 model.render();
 
                 ForgeHooksClient.unbindTexture();
+                GL11.glDepthMask(true);
+                GL11.glDisable(GL11.GL_BLEND);
+                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glPopMatrix();
             }
         }
