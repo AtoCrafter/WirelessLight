@@ -33,12 +33,8 @@ public class ItemTransparentizer extends Item {
         int meta = world.getBlockMetadata(x, y, z);
         if (blockID == WirelessLight.config.blockIDLightBox) {
             world.setBlockAndMetadataWithNotify(x, y, z, WirelessLight.config.blockIDLightBoxTransparent, meta);
-        } else if (blockID == WirelessLight.config.blockIDLightBoxTransparent) {
-            world.setBlockAndMetadataWithNotify(x, y, z, WirelessLight.config.blockIDLightBox, meta);
         } else if (blockID == WirelessLight.config.blockIDLightPlate) {
             world.setBlockAndMetadataWithNotify(x, y, z, WirelessLight.config.blockIDLightPlateTransparent, meta);
-        } else if (blockID == WirelessLight.config.blockIDLightPlateTransparent) {
-            world.setBlockAndMetadataWithNotify(x, y, z, WirelessLight.config.blockIDLightPlate, meta);
         } else {
             return false;
         }
