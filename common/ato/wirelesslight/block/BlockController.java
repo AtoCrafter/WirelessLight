@@ -3,6 +3,7 @@ package ato.wirelesslight.block;
 import ato.wirelesslight.WirelessLight;
 import ato.wirelesslight.item.ItemController;
 import ato.wirelesslight.tileentity.TileEntityController;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -37,6 +38,7 @@ public class BlockController extends BlockContainer {
         if (world.isRemote) return;
         ItemStack is = getItemStack(world, x, y, z);
         if (is == null) return;
+        if (Block.blocksList[blockID] instanceof BlockLight) return;
         ((ItemController) Item.itemsList[WirelessLight.config.itemIDController + 256])
                 .switchOn(null, is, world, world.isBlockGettingPowered(x, y, z));
     }
