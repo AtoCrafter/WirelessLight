@@ -12,6 +12,7 @@ public class BlockLightBox extends BlockLight {
 
     public BlockLightBox(int id, boolean transparent) {
         super(id, transparent);
+        setLightOpacity(255);
     }
 
     @Override
