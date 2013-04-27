@@ -23,6 +23,11 @@ public class BlockController extends BlockContainer {
     }
 
     @Override
+    public boolean isBlockNormalCube(World world, int x, int y, int z) {
+        return true;
+    }
+
+    @Override
     public TileEntity createNewTileEntity(World world) {
         return new TileEntityController();
     }
