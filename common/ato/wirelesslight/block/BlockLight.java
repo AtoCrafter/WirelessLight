@@ -55,7 +55,8 @@ public abstract class BlockLight extends Block {
                                     int par6, float par7, float par8, float par9) {
         if (player.getCurrentEquippedItem() != null) {
             Item item = player.getCurrentEquippedItem().getItem();
-            if (item instanceof ItemTransparentizer || item instanceof ItemController) {
+            if (item instanceof ItemTransparentizer || item instanceof ItemController
+                    && player.getCurrentEquippedItem().getItemDamage() != 3) {  // Switch Mode ならライトの on/off を切り替える（透明化対策）
                 return false;
             }
         }
