@@ -59,6 +59,9 @@ public abstract class BlockLight extends Block {
                 return false;
             }
         }
+        if (!isRenderable()) {
+            return false;
+        }
         setLighting(world, x, y, z, !isLighting(world, x, y, z));
         return true;
     }
