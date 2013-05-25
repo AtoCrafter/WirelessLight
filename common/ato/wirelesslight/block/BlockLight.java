@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -125,7 +126,8 @@ public abstract class BlockLight extends Block {
     public void setLighting(World world, int x, int y, int z, boolean light) {
         int meta = world.getBlockMetadata(x, y, z);
         int direction = getDirection(meta);
-        world.setBlockMetadataWithNotify(x, y, z, getMeta(direction, light));
+        world.setBlockMetadata(x, y, z, getMeta(direction, light));
+        world.updateLightByType(EnumSkyBlock.Block, x, y, z);
         world.markBlockForUpdate(x, y, z);
     }
 
