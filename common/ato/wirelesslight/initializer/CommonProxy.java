@@ -25,31 +25,31 @@ public class CommonProxy {
     private void registerItems() {
         Config con = WirelessLight.config;
         GameRegistry.registerBlock(
-                new BlockLightBox(con.blockIDLightBox, false).setBlockName("wirelesslight:lightbox"),
+                new BlockLightBox(con.blockIDLightBox, false).setUnlocalizedName("wirelesslight:lightbox"),
                 "lightbox"
         );
         GameRegistry.registerBlock(
-                new BlockLightBox(con.blockIDLightBoxTransparent, true).setBlockName("wirelesslight:lightbox.transparent"),
+                new BlockLightBox(con.blockIDLightBoxTransparent, true).setUnlocalizedName("wirelesslight:lightbox.transparent"),
                 "lightbox.transparent"
         );
         GameRegistry.registerBlock(
-                new BlockLightPlate(con.blockIDLightPlate, false).setBlockName("wirelesslight:lightplate"),
+                new BlockLightPlate(con.blockIDLightPlate, false).setUnlocalizedName("wirelesslight:lightplate"),
                 "lightplate"
         );
         GameRegistry.registerBlock(
-                new BlockLightPlate(con.blockIDLightPlateTransparent, true).setBlockName("wirelesslight:lightplate.transparent"),
+                new BlockLightPlate(con.blockIDLightPlateTransparent, true).setUnlocalizedName("wirelesslight:lightplate.transparent"),
                 "lightplate.transparent"
         );
         GameRegistry.registerBlock(
-                new BlockController(con.blockIDControllerBox).setBlockName("wirelesslight:controllerbox"),
+                new BlockController(con.blockIDControllerBox).setUnlocalizedName("wirelesslight:controllerbox"),
                 "controllerbox"
         );
         GameRegistry.registerItem(
-                new ItemController(con.itemIDController).setItemName("wirelesslight:controller"),
+                new ItemController(con.itemIDController).setUnlocalizedName("wirelesslight:controller"),
                 "controller"
         );
         GameRegistry.registerItem(
-                new ItemTransparentizer(con.itemIDTransparentizer).setItemName("wirelesslight:transparentizer"),
+                new ItemTransparentizer(con.itemIDTransparentizer).setUnlocalizedName("wirelesslight:transparentizer"),
                 "transparentizer"
         );
         GameRegistry.registerTileEntity(TileEntityController.class, "tileentity.controller");
@@ -68,7 +68,7 @@ public class CommonProxy {
                 "PPP",
                 'P', Block.thinGlass,
                 'R', Item.redstone,
-                'G', Item.lightStoneDust,
+                'G', Item.glowstone
         });
         GameRegistry.addRecipe(new ItemStack(itemLightPlate, 6), new Object[] {
                 "PRP",
@@ -76,7 +76,7 @@ public class CommonProxy {
                 "PPP",
                 'P', Block.thinGlass,
                 'R', Item.redstone,
-                'G', Item.lightStoneDust,
+                'G', Item.glowstone
         });
         GameRegistry.addRecipe(new ItemStack(itemControllerBox), new Object[] {
                 "ISI",

@@ -77,4 +77,14 @@ public class TileEntityController extends TileEntity implements IInventory {
             nbttc.setTag("Controller", controllerIS.getTagCompound());
         }
     }
+
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		return false;
+	}
 }

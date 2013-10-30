@@ -33,22 +33,12 @@ public abstract class BlockLight extends Block {
     protected boolean visible;
 
     public BlockLight(int id, boolean transparent) {
-        super(id, 0, Material.redstoneLight);
+        super(id, Material.redstoneLight);
         setHardness(0);
         if (!transparent) {
             setCreativeTab(CreativeTabs.tabRedstone);
         }
         this.transparent = transparent;
-    }
-
-    @Override
-    public String getTextureFile() {
-        return WirelessLight.texturePathBlock;
-    }
-
-    @Override
-    public int getBlockTextureFromSideAndMetadata(int side, int meta) {
-        return isLighting(meta) ? 1 : 0;
     }
 
     @Override
@@ -126,9 +116,7 @@ public abstract class BlockLight extends Block {
     public void setLighting(World world, int x, int y, int z, boolean light) {
         int meta = world.getBlockMetadata(x, y, z);
         int direction = getDirection(meta);
-        world.setBlockMetadata(x, y, z, getMeta(direction, light));
-        world.updateLightByType(EnumSkyBlock.Block, x, y, z);
-        world.markBlockForUpdate(x, y, z);
+        world.setBlockMetadataWithNotify(x, y, z, getMeta(direction, light), 2);
     }
 
     /**

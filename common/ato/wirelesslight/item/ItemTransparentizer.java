@@ -17,24 +17,14 @@ public class ItemTransparentizer extends Item {
     }
 
     @Override
-    public int getIconFromDamage(int par1) {
-        return 17;
-    }
-
-    @Override
-    public String getTextureFile() {
-        return WirelessLight.texturePathBlock;
-    }
-
-    @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
                              int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         int blockID = world.getBlockId(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
         if (blockID == WirelessLight.config.blockIDLightBox) {
-            world.setBlockAndMetadataWithNotify(x, y, z, WirelessLight.config.blockIDLightBoxTransparent, meta);
+            world.setBlock(x, y, z, WirelessLight.config.blockIDLightBoxTransparent, meta, 3);
         } else if (blockID == WirelessLight.config.blockIDLightPlate) {
-            world.setBlockAndMetadataWithNotify(x, y, z, WirelessLight.config.blockIDLightPlateTransparent, meta);
+            world.setBlock(x, y, z, WirelessLight.config.blockIDLightPlateTransparent, meta, 3);
         } else {
             return false;
         }

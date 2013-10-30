@@ -35,7 +35,6 @@ public class ClientProxy extends CommonProxy {
      * レンダラの登録
      */
     private void registerRenderers() {
-        MinecraftForgeClient.preloadTexture(WirelessLight.texturePathBright);
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForRender.class, new LightRenderer());
     }
 }

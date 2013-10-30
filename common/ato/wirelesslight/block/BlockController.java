@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 public class BlockController extends BlockContainer {
 
     public BlockController(int id) {
-        super(id, 0, Material.circuits);
+        super(id, Material.circuits);
         setCreativeTab(CreativeTabs.tabRedstone);
         setHardness(0.2F);
     }
@@ -40,7 +40,7 @@ public class BlockController extends BlockContainer {
         if (is == null) return;
         if (Block.blocksList[blockID] instanceof BlockLight) return;
         ((ItemController) Item.itemsList[WirelessLight.config.itemIDController + 256])
-                .switchOn(null, is, world, world.isBlockGettingPowered(x, y, z));
+                .switchOn(null, is, world, world.isBlockIndirectlyGettingPowered(x, y, z));
     }
 
     @Override
