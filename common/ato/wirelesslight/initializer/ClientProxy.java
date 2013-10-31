@@ -28,7 +28,7 @@ public class ClientProxy extends CommonProxy {
      * 言語ファイルの登録
      */
     private void registerLocalization(String lang) {
-        LanguageRegistry.instance().loadLocalization("/mods/wirelesslight/lang/" + lang + ".properties", lang, false);
+        LanguageRegistry.instance().loadLocalization("/assets/wirelesslight/lang/" + lang + ".lang", lang, false);
     }
 
     /**
