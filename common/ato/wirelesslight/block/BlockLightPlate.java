@@ -83,7 +83,7 @@ public class BlockLightPlate extends BlockLight {
         int meta = world.getBlockMetadata(x, y, z);
         if (!canPlaceBlockOnSide(world, x, y, z, getDirection(meta))) {
             dropBlockAsItem(world, x, y, z, 0, 0);
-            world.setBlockWithNotify(x, y, z, 0);
+            world.setBlock(x, y, z, 0);
         }
     }
 

@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.StringTranslate;
 import net.minecraft.world.World;
 
@@ -40,16 +41,6 @@ public class ItemController extends Item {
     }
 
     @Override
-    public int getIconFromDamage(int damage) {
-        return 16;
-    }
-
-    @Override
-    public String getTextureFile() {
-        return WirelessLight.texturePathBlock;
-    }
-
-    @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
                              int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         if (player.isSneaking()) return false;
@@ -68,7 +59,7 @@ public class ItemController extends Item {
                 if (!world.isRemote) {
                     if (startPoint == null) {
                         startPoint = new Pos(x, y, z);
-                        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.setstartpoint") + ": " + startPoint);
+                        player.addChatMessage(StatCollector.translateToLocal("wirelesslight.controller.setstartpoint") + ": " + startPoint);
                     } else {
                         Pos endPoint = new Pos(x, y, z);
                         registerBlocksInControll(world, player, stack, startPoint, endPoint);
@@ -116,10 +107,10 @@ public class ItemController extends Item {
         Pos pos = new Pos(x, y, z);
         if (list.contains(pos)) {
             list.remove(pos);
-            player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.unregister") + ": " + pos);
+            player.addChatMessage(StatCollector.translateToLocal("wirelesslight.controller.unregister") + ": " + pos);
         } else {
             list.add(pos);
-            player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.register") + ": " + pos);
+            player.addChatMessage(StatCollector.translateToLocal("wirelesslight.controller.register") + ": " + pos);
         }
         save(is);
     }
@@ -142,7 +133,7 @@ public class ItemController extends Item {
             }
         }
         save(is);
-        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.registerblocks")
+        player.addChatMessage(StatCollector.translateToLocal("wirelesslight.controller.registerblocks")
                 + ": from " + from + " to " + to + " (" + size + ")");
     }
 
@@ -150,14 +141,14 @@ public class ItemController extends Item {
         load(is);
         list.clear();
         save(is);
-        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.unregisterblocks"));
+        player.addChatMessage(StatCollector.translateToLocal("wirelesslight.controller.unregisterblocks"));
     }
 
     @Override
     public void addInformation(ItemStack is, EntityPlayer entityPlayer, List infoList, boolean par4) {
         load(is);
-        infoList.add(StringTranslate.getInstance().translateKey(modeDescription[is.getItemDamage()]));
-        infoList.add(StringTranslate.getInstance().translateKey("wirelesslight.controller.blocksincontroll")
+        infoList.add(StatCollector.translateToLocal(modeDescription[is.getItemDamage()]));
+        infoList.add(StatCollector.translateToLocal("wirelesslight.controller.blocksincontroll")
                 + ": " + list.size());
     }
 
@@ -196,8 +187,8 @@ public class ItemController extends Item {
 
     private void changeMode(EntityPlayer player, ItemStack is) {
         is.setItemDamage((is.getItemDamage() + 1) % modeDescription.length);
-        player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.modechange")
-                + ": " + StringTranslate.getInstance().translateKey(modeDescription[is.getItemDamage()]));
+        player.addChatMessage(StatCollector.translateToLocal("wirelesslight.controller.modechange")
+                + ": " + StatCollector.translateToLocal(modeDescription[is.getItemDamage()]));
         startPoint = null;
     }
 
@@ -222,7 +213,7 @@ public class ItemController extends Item {
         }
 
         if (player != null)
-            player.addChatMessage(StringTranslate.getInstance().translateKey("wirelesslight.controller.switch")
+            player.addChatMessage(StatCollector.translateToLocal("wirelesslight.controller.switch")
                     + (on ? " ON" : " OFF") + " (" + list.size() + ")");
     }
 
