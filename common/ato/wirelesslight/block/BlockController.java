@@ -1,11 +1,14 @@
 package ato.wirelesslight.block;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ato.wirelesslight.WirelessLight;
 import ato.wirelesslight.item.ItemController;
 import ato.wirelesslight.tileentity.TileEntityController;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -65,7 +68,13 @@ public class BlockController extends BlockContainer {
         return true;
     }
 
-    public boolean installFromItemStack(IBlockAccess access, int x, int y, int z, ItemStack is) {
+    @Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister ir) {
+        blockIcon = ir.registerIcon("gravel");
+	}
+
+	public boolean installFromItemStack(IBlockAccess access, int x, int y, int z, ItemStack is) {
         TileEntityController tileEntity = (TileEntityController) access.getBlockTileEntity(x, y, z);
         if (tileEntity == null) {
             return false;

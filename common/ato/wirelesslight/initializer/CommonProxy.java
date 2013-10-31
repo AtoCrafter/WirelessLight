@@ -45,11 +45,15 @@ public class CommonProxy {
                 "controllerbox"
         );
         GameRegistry.registerItem(
-                new ItemController(con.itemIDController).setUnlocalizedName("wirelesslight:controller"),
+                new ItemController(con.itemIDController)
+                    .setUnlocalizedName("wirelesslight:controller")
+                    .setTextureName("wirelesslight:controller"),
                 "controller"
         );
         GameRegistry.registerItem(
-                new ItemTransparentizer(con.itemIDTransparentizer).setUnlocalizedName("wirelesslight:transparentizer"),
+                new ItemTransparentizer(con.itemIDTransparentizer)
+                    .setUnlocalizedName("wirelesslight:transparentizer")
+                    .setTextureName("wirelesslight:transparentizer"),
                 "transparentizer"
         );
         GameRegistry.registerTileEntity(TileEntityController.class, "tileentity.controller");
