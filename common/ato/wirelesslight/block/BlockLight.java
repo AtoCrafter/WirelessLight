@@ -5,13 +5,18 @@ import ato.wirelesslight.item.ItemController;
 import ato.wirelesslight.item.ItemTransparentizer;
 import ato.wirelesslight.renderer.TileEntityForRender;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -30,9 +35,17 @@ public abstract class BlockLight extends Block {
      * 見えるか？
      */
     protected boolean visible;
+    /**
+     * on のときのテクスチャ
+     */
+    private Icon iconLightOn;
+    /**
+     * off のときのテクスチャ
+     */
+    private Icon iconLightOff;
 
     public BlockLight(int id, boolean transparent) {
-        super(id, 0, Material.redstoneLight);
+        super(id, Material.redstoneLight);
         setHardness(0);
         if (!transparent) {
             setCreativeTab(CreativeTabs.tabRedstone);
@@ -41,23 +54,17 @@ public abstract class BlockLight extends Block {
     }
 
     @Override
-    public String getTextureFile() {
-        return WirelessLight.texturePathBlock;
-    }
-
-    @Override
-    public int getBlockTextureFromSideAndMetadata(int side, int meta) {
-        return isLighting(meta) ? 1 : 0;
-    }
-
-    @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player,
                                     int par6, float par7, float par8, float par9) {
         if (player.getCurrentEquippedItem() != null) {
             Item item = player.getCurrentEquippedItem().getItem();
-            if (item instanceof ItemTransparentizer || item instanceof ItemController) {
+            if (item instanceof ItemTransparentizer || item instanceof ItemController
+                    && player.getCurrentEquippedItem().getItemDamage() != 3) {  // Switch Mode ならライトの on/off を切り替える（透明化対策）
                 return false;
             }
+        }
+        if (!isRenderable()) {
+            return false;
         }
         setLighting(world, x, y, z, !isLighting(world, x, y, z));
         return true;
@@ -101,7 +108,25 @@ public abstract class BlockLight extends Block {
         return isRenderable() ? super.getRenderType() : -1;
     }
 
-    /**
+    @Override
+	@SideOnly(Side.CLIENT)
+	public Icon getIcon(int side, int meta) {
+        return isLighting(meta) ? iconLightOn : iconLightOff;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister ir) {
+	    if (transparent) {
+	        iconLightOff = ir.registerIcon("wirelesslight:lightbox_transparent_off");
+	        iconLightOn = ir.registerIcon("wirelesslight:lightbox_transparent_on");
+	    } else {
+	        iconLightOff = ir.registerIcon("wirelesslight:lightbox_off");
+	        iconLightOn = ir.registerIcon("wirelesslight:lightbox_on");
+	    }
+	}
+
+	/**
      * 指定ブロックが発光しているかどうか
      */
     public boolean isLighting(IBlockAccess access, int x, int y, int z) {
@@ -121,8 +146,7 @@ public abstract class BlockLight extends Block {
     public void setLighting(World world, int x, int y, int z, boolean light) {
         int meta = world.getBlockMetadata(x, y, z);
         int direction = getDirection(meta);
-        world.setBlockMetadataWithNotify(x, y, z, getMeta(direction, light));
-        world.markBlockForUpdate(x, y, z);
+        world.setBlockMetadataWithNotify(x, y, z, getMeta(direction, light), 2);
     }
 
     /**

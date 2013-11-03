@@ -5,9 +5,12 @@ import ato.wirelesslight.block.BlockLight;
 import ato.wirelesslight.block.BlockLightPlate;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class LightRenderer extends TileEntitySpecialRenderer {
 
@@ -27,7 +30,8 @@ public class LightRenderer extends TileEntitySpecialRenderer {
                 final float shift = 1 - BlockLightPlate.THINNESS;
 
                 GL11.glPushMatrix();
-                ForgeHooksClient.bindTexture(WirelessLight.texturePathBright, 1);
+                FMLClientHandler.instance().getClient().getTextureManager().bindTexture(
+                        new ResourceLocation("wirelesslight:textures/blocks/bright.png"));
                 GL11.glDepthMask(false);
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
@@ -97,7 +101,6 @@ public class LightRenderer extends TileEntitySpecialRenderer {
 
                 model.render();
 
-                ForgeHooksClient.unbindTexture();
                 GL11.glDepthMask(true);
                 GL11.glDisable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
